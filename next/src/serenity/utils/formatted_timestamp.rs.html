@@ -242,7 +242,7 @@
 <a href="#242" id="242">242</a>
 <a href="#243" id="243">243</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::error::Error <span class="kw">as </span>StdError;
-<span class="kw">use </span>std::fmt::{<span class="self">self</span>, Display};
+<span class="kw">use </span>std::fmt;
 <span class="kw">use </span>std::str::FromStr;
 
 <span class="kw">use </span><span class="kw">crate</span>::all::Timestamp;
@@ -324,7 +324,7 @@
     }
 }
 
-<span class="kw">impl </span>Display <span class="kw">for </span>FormattedTimestamp {
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>FormattedTimestamp {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
         <span class="kw">match </span><span class="self">self</span>.style {
             <span class="prelude-val">Some</span>(style) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;&lt;t:{}:{}&gt;&quot;</span>, <span class="self">self</span>.timestamp, style),
@@ -333,7 +333,7 @@
     }
 }
 
-<span class="kw">impl </span>Display <span class="kw">for </span>FormattedTimestampStyle {
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>FormattedTimestampStyle {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
         <span class="kw">let </span>style = <span class="kw">match </span><span class="self">self </span>{
             <span class="self">Self</span>::ShortTime =&gt; <span class="string">&quot;t&quot;</span>,
@@ -357,7 +357,7 @@
 
 <span class="kw">impl </span>StdError <span class="kw">for </span>FormattedTimestampParseError {}
 
-<span class="kw">impl </span>Display <span class="kw">for </span>FormattedTimestampParseError {
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>FormattedTimestampParseError {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
         <span class="macro">write!</span>(f, <span class="string">&quot;invalid formatted timestamp {:?}&quot;</span>, <span class="self">self</span>.string)
     }
