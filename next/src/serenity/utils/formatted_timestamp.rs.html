@@ -238,6 +238,9 @@
 <a href="#238" id="238">238</a>
 <a href="#239" id="239">239</a>
 <a href="#240" id="240">240</a>
+<a href="#241" id="241">241</a>
+<a href="#242" id="242">242</a>
+<a href="#243" id="243">243</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::error::Error <span class="kw">as </span>StdError;
 <span class="kw">use </span>std::fmt::{<span class="self">self</span>, Display};
 <span class="kw">use </span>std::str::FromStr;
@@ -282,7 +285,7 @@
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>new(timestamp: Timestamp, style: <span class="prelude-ty">Option</span>&lt;FormattedTimestampStyle&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            timestamp: timestamp.timestamp(),
+            timestamp: timestamp.unix_timestamp(),
             style,
         }
     }
@@ -292,7 +295,7 @@
     </span><span class="attr">#[must_use]
     </span><span class="kw">pub fn </span>now() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            timestamp: Timestamp::now().timestamp(),
+            timestamp: Timestamp::now().unix_timestamp(),
             style: <span class="prelude-val">None</span>,
         }
     }
@@ -315,7 +318,7 @@
     /// style.
     </span><span class="kw">fn </span>from(timestamp: Timestamp) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            timestamp: timestamp.timestamp(),
+            timestamp: timestamp.unix_timestamp(),
             style: <span class="prelude-val">None</span>,
         }
     }
@@ -431,7 +434,7 @@
 
         <span class="kw">let </span>unstyled_str = unstyled.to_string();
 
-        <span class="macro">assert_eq!</span>(unstyled_str, <span class="macro">format!</span>(<span class="string">&quot;&lt;t:{}&gt;&quot;</span>, timestamp.timestamp()));
+        <span class="macro">assert_eq!</span>(unstyled_str, <span class="macro">format!</span>(<span class="string">&quot;&lt;t:{}&gt;&quot;</span>, timestamp.unix_timestamp()));
     }
 
     <span class="attr">#[test]
@@ -451,8 +454,11 @@
 
         <span class="kw">let </span>time = FormattedTimestamp::new(timestamp, <span class="prelude-val">Some</span>(FormattedTimestampStyle::ShortDateTime));
 
-        <span class="kw">let </span>time_str =
-            <span class="macro">format!</span>(<span class="string">&quot;&lt;t:{}:{}&gt;&quot;</span>, timestamp.timestamp(), FormattedTimestampStyle::ShortDateTime);
+        <span class="kw">let </span>time_str = <span class="macro">format!</span>(
+            <span class="string">&quot;&lt;t:{}:{}&gt;&quot;</span>,
+            timestamp.unix_timestamp(),
+            FormattedTimestampStyle::ShortDateTime
+        );
 
         <span class="kw">let </span>time_parsed = time_str.parse::&lt;FormattedTimestamp&gt;().unwrap();
 
@@ -460,7 +466,7 @@
 
         <span class="kw">let </span>unstyled = FormattedTimestamp::new(timestamp, <span class="prelude-val">None</span>);
 
-        <span class="kw">let </span>unstyled_str = <span class="macro">format!</span>(<span class="string">&quot;&lt;t:{}&gt;&quot;</span>, timestamp.timestamp());
+        <span class="kw">let </span>unstyled_str = <span class="macro">format!</span>(<span class="string">&quot;&lt;t:{}&gt;&quot;</span>, timestamp.unix_timestamp());
 
         <span class="kw">let </span>unstyled_parsed = unstyled_str.parse::&lt;FormattedTimestamp&gt;().unwrap();
 
